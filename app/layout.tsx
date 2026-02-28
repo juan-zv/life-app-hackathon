@@ -8,6 +8,7 @@ import {
 } from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/layout/theme-provider";
 import "./globals.css";
+import { cookies } from "next/headers"
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/layout/app-sidebar"
@@ -18,7 +19,10 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const cookieStore = await cookies()
+  const defaultOpen = cookieStore.get("sidebar_state")?.value !== "false"
+
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
@@ -30,7 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             enableSystem
             disableTransitionOnChange
           >
-            <SidebarProvider>
+            <SidebarProvider defaultOpen={defaultOpen}>
               <SignedIn>
                 <AppSidebar />
               </SignedIn>
