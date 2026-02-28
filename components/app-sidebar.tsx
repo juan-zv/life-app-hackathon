@@ -6,6 +6,7 @@ import {
   SidebarHeader,
 } from "@/components/ui/sidebar"
 import { ModeToggle } from "@/components/mode-toggle"
+import { NavUser } from "@/components/nav-user"
 
 export function AppSidebar() {
   return (
@@ -17,7 +18,9 @@ export function AppSidebar() {
         <SidebarGroup />
         <SidebarGroup />
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <NavUser />
+      </SidebarFooter>
     </Sidebar>
   )
 }
