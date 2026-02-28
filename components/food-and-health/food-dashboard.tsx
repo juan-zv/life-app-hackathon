@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { useAuth } from "@clerk/nextjs"
-import { useForm } from "react-hook-form"
+import { useForm, SubmitHandler } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import {
@@ -67,6 +67,8 @@ const foodFormSchema = z.object({
   }),
 })
 
+type FoodFormValues = z.infer<typeof foodFormSchema>
+
 export function FoodDashboard() {
   const { userId, isLoaded } = useAuth()
   const [data, setData] = useState<DashboardSection[]>(mockDashboardData)
@@ -102,8 +104,7 @@ export function FoodDashboard() {
     (item) => item.amount <= item.renewThreshold
   )
 
-  const form = useForm<z.infer<typeof foodFormSchema>>({
-    // @ts-ignore
+  const form = useForm<FoodFormValues>({
     resolver: zodResolver(foodFormSchema),
     defaultValues: {
       name: "",
@@ -113,7 +114,7 @@ export function FoodDashboard() {
     },
   })
 
-  async function onSubmit(values: z.infer<typeof foodFormSchema>) {
+  const onSubmit: SubmitHandler<FoodFormValues> = async (values) => {
     setIsSubmitting(true)
     try {
       const newItem: FoodItem = {
