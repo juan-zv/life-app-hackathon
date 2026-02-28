@@ -8,6 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import { Progress } from "@/components/ui/progress"
 import { Plus } from "lucide-react"
 import type { FoodItem } from "./data"
 
@@ -32,9 +33,13 @@ export function FoodItemList({ items, onUpdateAmount, onAddItem }: FoodItemListP
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">{item.amount} <span className="text-sm font-normal text-muted-foreground">units</span></div>
-            <p className="text-xs text-muted-foreground mt-1">
+            <p className="text-xs text-muted-foreground mt-1 mb-2">
               Should renew at: {item.renewThreshold} units
             </p>
+            <Progress 
+                value={(item.amount / Math.max(item.renewThreshold * 2, item.amount)) * 100} 
+                className={`h-1.5 ${item.amount <= item.renewThreshold ? "bg-red-100 dark:bg-red-950" : ""}`}
+            />
             <div className="mt-4 flex items-center justify-between">
               <div className="text-sm font-medium">
                 ${item.price.toFixed(2)} / unit

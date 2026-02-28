@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
+import { Progress } from "@/components/ui/progress"
 import { StepFoodHealth } from "./step-food-health"
 import { StepAcademics } from "./step-academics"
 import { StepSubscriptions } from "./step-subscriptions"
@@ -110,13 +111,10 @@ export function OnboardingWizard() {
               Skip
             </Button>
           </div>
-          {/* Progress Bar could go here */}
-          <div className="bg-secondary h-2 w-full overflow-hidden rounded-full mt-2">
-            <div
-              className="bg-primary h-full transition-all duration-300 ease-in-out"
-              style={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
-            />
-          </div>
+          <Progress 
+            value={((currentStep + 1) / steps.length) * 100} 
+            className="mt-2"
+          />
         </CardHeader>
         <CardContent className="pt-6">
           <FormProvider {...methods}>
