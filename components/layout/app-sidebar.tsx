@@ -1,3 +1,6 @@
+"use client"
+
+import { usePathname } from "next/navigation"
 import {
   Sidebar,
   SidebarContent,
@@ -10,7 +13,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { ModeToggle } from "@/components/layout/mode-toggle"
 import { NavUser } from "@/components/layout/nav-user"
 import { BookOpen, CreditCard, LayoutDashboard, Utensils } from "lucide-react"
 
@@ -33,15 +35,17 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const pathname = usePathname()
+
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
+            <SidebarMenuButton size="lg" asChild isActive={pathname === "/"}>
               <a href="/">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <LayoutDashboard className="size-4" />
+                  <img src="/logo.png" alt="Life App Hackathon Logo" className="rounded-md"/>
                 </div>
                 <div className="flex flex-col gap-0.5 leading-none">
                   <span className="font-semibold">Life App Hackathon</span>
@@ -59,7 +63,11 @@ export function AppSidebar() {
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
+                  <SidebarMenuButton
+                    asChild
+                    tooltip={item.title}
+                    isActive={pathname.startsWith(item.url)}
+                  >
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>

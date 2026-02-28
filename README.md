@@ -1,6 +1,10 @@
 # Life App Hackathon
 
-A modern web application built with Next.js 16 for the Life App Hackathon. This project focuses on providing a seamless user experience with robust authentication, persistent UI state, and a clean, responsive design.
+This app is made to save time in your life. It aims to be a complete dashboard for your life. You make thousands of non-life-changing decisions every day-the kind that don't define your future but definitely drain your present. From tracking syllabi to managing forgotten subscriptions and wondering what's for dinner, the 'mental tax' of modern living is real.
+
+We built Life App to reclaim those lost hours. We’ve created a centralized ecosystem that doesn't just "list" your tasks—it starts doing them for you.
+
+Life App is a modern web application built with Next.js 16 for the USU Hackathon. This project focuses on providing a seamless user experience with robust authentication, persistent UI state, and a clean, responsive design.
 
 Live Demo [HERE](https://life-app-hackathon.vercel.app/)
 

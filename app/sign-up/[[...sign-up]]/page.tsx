@@ -1,51 +1,55 @@
-import { SignUp } from '@clerk/nextjs';
-import { ChartLine, Clock, ShieldCheck, Sparkles } from 'lucide-react';
+import { SignUp } from '@clerk/nextjs'
+import { CheckCircle2, LayoutDashboard, Zap } from 'lucide-react'
 
 export default function SignUpPage() {
   return (
-    <div className='bg-muted grid flex-1 lg:grid-cols-2'>
-      <div className='hidden flex-1 items-center justify-end p-6 md:p-10 lg:flex'>
-        <ul className='max-w-sm space-y-8'>
-          <li>
-            <div className='flex items-center gap-2'>
-              <Clock className='size-4' />
-              <p className='font-semibold'>Save on development time</p>
-            </div>
-            <p className='text-muted-foreground mt-2 text-sm'>
-              Add authentication and user management to your app with just a few lines of code.
+    <div className="bg-muted grid flex-1 lg:grid-cols-2">
+      <div className="hidden flex-1 flex-col justify-center p-8 md:p-12 lg:flex">
+        <div className="max-w-xl space-y-8">
+          <div className="space-y-4">
+            <h2 className="text-3xl font-bold tracking-tight">
+              Reclaim Your Time
+            </h2>
+            <blockquote className="border-l-4 pl-4 italic text-muted-foreground">
+              &quot;This app is made to save time in your life. It aims to be a
+              complete dashboard for your life. You make thousands of
+              non-life-changing decisions every day&mdash;the kind that don&apos;t define
+              your future but definitely drain your present. From tracking syllabi
+              to managing forgotten subscriptions and wondering what&apos;s for
+              dinner, the &apos;mental tax&apos; of modern living is real.&quot;
+            </blockquote>
+          </div>
+
+          <div className="space-y-6">
+            <p className="text-lg font-medium">
+              We&apos;ve created a centralized ecosystem that doesn&apos;t just &quot;list&quot;
+              your tasks&mdash;it starts doing them for you.
             </p>
-          </li>
-          <li>
-            <div className='flex items-center gap-2'>
-              <ChartLine className='size-4' />
-              <p className='font-semibold'>Increase engagement</p>
-            </div>
-            <p className='text-muted-foreground mt-2 text-sm'>
-              Add intuitive UIs designed to decrease friction for your users.
-            </p>
-          </li>
-          <li>
-            <div className='flex items-center gap-2'>
-              <ShieldCheck className='size-4' />
-              <p className='font-semibold'>Protect your users</p>
-            </div>
-            <p className='text-muted-foreground mt-2 text-sm'>
-              Enable features like two-step verification and enjoy automatic security updates.
-            </p>
-          </li>
-          <li>
-            <div className='flex items-center gap-2'>
-              <Sparkles className='size-4' />
-              <p className='font-semibold'>Match your brand</p>
-            </div>
-            <p className='text-muted-foreground mt-2 text-sm'>
-              Theme our pre-built components, or integrate with our easy-to-use APIs.
-            </p>
-          </li>
-        </ul>
+
+            <ul className="space-y-4">
+              <li className="flex items-center gap-3">
+                <LayoutDashboard className="h-6 w-6 text-primary" />
+                <span>Complete dashboard for your life</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <CheckCircle2 className="h-6 w-6 text-primary" />
+                <span>Automated decision making</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Zap className="h-6 w-6 text-primary" />
+                <span>Zero latency interface</span>
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
       <div className='flex flex-1 items-center justify-center p-6 md:p-10 lg:justify-start'>
-        <SignUp />
+        <SignUp appearance={{
+          elements: {
+            headerTitle: "hidden",
+            headerSubtitle: "hidden",
+          }
+        }} />
       </div>
     </div>
   );
