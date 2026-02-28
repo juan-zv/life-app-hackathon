@@ -23,7 +23,7 @@ export function OnboardingWizard() {
   const router = useRouter()
 
   const methods = useForm<OnboardingData>({
-    resolver: zodResolver(onboardingSchema),
+    resolver: zodResolver(onboardingSchema as any), 
     mode: "onChange",
     defaultValues: {
       foodHealth: {
