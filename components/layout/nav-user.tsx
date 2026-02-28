@@ -7,6 +7,9 @@ import {
   CreditCard,
   LogOut,
   Sparkles,
+  Moon,
+  Sun,
+  Monitor
 } from "lucide-react"
 
 import {
@@ -30,11 +33,13 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar"
 import { useClerk, useUser } from "@clerk/nextjs"
+import { useTheme } from "next-themes"
 
 export function NavUser() {
   const { isMobile } = useSidebar()
   const { user } = useUser()
   const { signOut } = useClerk()
+  const { setTheme, theme } = useTheme()
 
   if (!user) return null
 
@@ -100,6 +105,35 @@ export function NavUser() {
                 <Bell />
                 Notifications
               </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <div className="flex items-center justify-between p-2">
+                <span className="text-sm font-medium">Theme</span>
+                <div className="flex items-center gap-1 border rounded-md p-1 bg-muted/50">
+                  <button
+                    onClick={() => setTheme("light")}
+                    className={`p-1.5 rounded-sm hover:bg-background hover:shadow-sm transition-all ${theme === 'light' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground'}`}
+                    title="Light"
+                  >
+                    <Sun className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => setTheme("dark")}
+                    className={`p-1.5 rounded-sm hover:bg-background hover:shadow-sm transition-all ${theme === 'dark' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground'}`}
+                    title="Dark"
+                  >
+                    <Moon className="h-4 w-4" />
+                  </button>
+                  <button
+                    onClick={() => setTheme("system")}
+                    className={`p-1.5 rounded-sm hover:bg-background hover:shadow-sm transition-all ${theme === 'system' ? 'bg-background shadow-sm text-foreground' : 'text-muted-foreground'}`}
+                    title="System"
+                  >
+                    <Monitor className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => signOut()}>

@@ -1,0 +1,42 @@
+[
+  {
+    "id": 1,
+    "title": "NASA's James Webb Space Telescope Captures New Image of Pillars of Creation",
+    "description": "NASA's James Webb Space Telescope has captured a lush, highly detailed landscape – the iconic Pillars of Creation – where new stars are forming within dense clouds of gas and dust.",
+    "source": "NASA",
+    "url": "https://www.nasa.gov/image-feature/goddard/2022/nasa-s-webb-takes-star-filled-portrait-of-pillars-of-creation",
+    "date": "2022-10-19"
+  },
+  {
+    "id": 2,
+    "title": "Quantum Computing Breakthrough: Researchers Demonstrate Quantum Advantage",
+    "description": "A team of researchers has announced a significant breakthrough in quantum computing, demonstrating quantum advantage on a specific computational task.",
+    "source": "Nature",
+    "url": "https://www.nature.com/articles/s41586-019-1666-5",
+    "date": "2019-10-23"
+  },
+  {
+    "id": 3,
+    "title": "The Future of AI: Generative Models Transformation",
+    "description": "Explaining how large language models and generative AI are transforming industries from software development to creative arts.",
+    "source": "TechCrunch",
+    "url": "https://techcrunch.com/",
+    "date": "2023-03-15"
+  },
+  {
+    "id": 4,
+    "title": "Global Climate Report: 2023 Was the Warmest Year on Record",
+    "description": "NOAA's analyzes reveal that 2023 was the warmest year since global records began in 1850, at 1.18°C (2.12°F) above the 20th-century average.",
+    "source": "NOAA",
+    "url": "https://www.noaa.gov/news/2023-was-worlds-warmest-year-on-record-by-far",
+    "date": "2024-01-12"
+  },
+  {
+    "id": 5,
+    "title": "SpaceX Starship: The Path to Mars",
+    "description": "An overview of SpaceX's development of the Starship launch vehicle and its potential to enable human exploration of Mars.",
+    "source": "SpaceX",
+    "url": "https://www.spacex.com/vehicles/starship/",
+    "date": "2024-02-01"
+  }
+]

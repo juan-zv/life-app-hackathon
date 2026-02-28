@@ -6,11 +6,11 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs'
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/layout/theme-provider";
 import "./globals.css";
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { AppSidebar } from "@/components/layout/app-sidebar"
 
 export const metadata: Metadata = {
   title: "Life App Hackathon",
@@ -39,14 +39,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                   <SidebarTrigger />
                 </SignedIn>
                 <div className="flex justify-end p-4">
-                  <SignedIn>
+                  {/* <SignedIn>
                     <UserButton />
-                  </SignedIn>
+                  </SignedIn> */}
                 </div>
                 {children}
               </main>
             </SidebarProvider>
-
           </ThemeProvider>
         </body>
       </html>
