@@ -69,6 +69,14 @@ const foodFormSchema = z.object({
 
 type FoodFormValues = z.infer<typeof foodFormSchema>
 
+// Create a version of the schema that can handle form inputs (which are often strings)
+// but validates them as numbers according to our rules
+const formSchema = foodFormSchema as unknown as z.ZodType<
+  FoodFormValues, // Output type (clean numbers)
+  z.ZodTypeDef,
+  unknown // Input type (can be strings, numbers, etc)
+>
+
 export function FoodDashboard() {
   const { userId, isLoaded } = useAuth()
   const [data, setData] = useState<DashboardSection[]>(mockDashboardData)
@@ -105,7 +113,7 @@ export function FoodDashboard() {
   )
 
   const form = useForm<FoodFormValues>({
-    resolver: zodResolver(foodFormSchema),
+    resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       amount: 1,
