@@ -14,13 +14,18 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
 import { NavUser } from "@/components/layout/nav-user"
-import { BookOpen, CreditCard, LayoutDashboard, Utensils } from "lucide-react"
+import { BookOpen, CreditCard, Info, LayoutDashboard, ShoppingCart, Utensils } from "lucide-react"
 
 const items = [
   {
     title: "Food and Health",
     url: "/food-and-health",
     icon: Utensils,
+  },
+  {
+    title: "Walmart Cart",
+    url: "/food-and-health/walmart-cart",
+    icon: ShoppingCart,
   },
   {
     title: "Academics",
@@ -31,6 +36,11 @@ const items = [
     title: "Subscriptions",
     url: "/subscriptions",
     icon: CreditCard,
+  },
+  {
+    title: "TUI Tool Info",
+    url: "/tui-tool",
+    icon: Info,
   },
 ]
 

@@ -12,6 +12,7 @@ import {
   TrendingUp,
   AlertCircle,
   CheckCircle2,
+  Copy,
 } from "lucide-react"
 
 import {
@@ -27,6 +28,7 @@ import { Badge } from "@/components/ui/badge"
 export function Dashboard() {
   const { userId, isLoaded } = useAuth()
   const [apiData, setApiData] = useState<any[] | null>(null)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     if (!isLoaded || !userId) return
@@ -36,6 +38,14 @@ export function Dashboard() {
       .then(data => setApiData(data))
       .catch(err => console.error(err))
   }, [isLoaded, userId])
+
+  const copyToClipboard = () => {
+    if (userId) {
+      navigator.clipboard.writeText(userId)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+  }
 
   const subscriptions = apiData?.find(c => c.name === "Subscriptions")?.content?.items || []
   const academics = apiData?.find(c => c.name === "Academics")?.content || {}
@@ -55,16 +65,30 @@ export function Dashboard() {
             Overview of your daily metrics and tasks.
           </p>
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 px-3 py-1 rounded-full">
-          <CalendarDays className="h-4 w-4" />
-          <span>
-            {new Date().toLocaleDateString("en-US", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </span>
+        <div className="flex flex-col items-end gap-2">
+          <div className="flex items-center gap-2 text-sm text-muted-foreground bg-muted/50 px-3 py-1 rounded-full">
+            <CalendarDays className="h-4 w-4" />
+            <span>
+              {new Date().toLocaleDateString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </span>
+          </div>
+          {userId && (
+            <div className="flex items-center gap-2 text-xs text-muted-foreground bg-muted/30 px-3 py-1 rounded-full border">
+             <span className="font-mono" title={userId}>ID: {userId.slice(0, 8)}...{userId.slice(-4)}</span>
+              <button 
+                className="ml-1 hover:text-foreground transition-colors" 
+                onClick={copyToClipboard}
+                title="Copy User ID"
+              >
+                {copied ? <CheckCircle2 className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

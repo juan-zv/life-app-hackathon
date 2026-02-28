@@ -19,6 +19,7 @@ import {
 import { SubscriptionList } from "./subscription-list"
 import { AddSubscriptionSheet } from "./add-subscription-sheet"
 import { type SubscriptionFormValues } from "./schema"
+import { PlaidBankDashboard } from "./plaid-bank-dashboard"
 
 export function SubscriptionDashboard() {
   const { userId, isLoaded } = useAuth()
@@ -151,6 +152,8 @@ export function SubscriptionDashboard() {
       </div>
 
       <SubscriptionList items={subscriptionItems} />
+
+      <PlaidBankDashboard />
 
       <AddSubscriptionSheet 
         open={isSheetOpen} 
