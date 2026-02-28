@@ -72,9 +72,9 @@ type FoodFormValues = z.infer<typeof foodFormSchema>
 // Create a version of the schema that can handle form inputs (which are often strings)
 // but validates them as numbers according to our rules
 const formSchema = foodFormSchema as unknown as z.ZodType<
-  FoodFormValues, // Output type (clean numbers)
-  z.ZodTypeDef,
-  unknown // Input type (can be strings, numbers, etc)
+  FoodFormValues,
+  any,
+  unknown
 >
 
 export function FoodDashboard() {
