@@ -35,7 +35,7 @@ export function AddFoodItemSheet({ open, onOpenChange, onSubmit }: AddFoodItemSh
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   const form = useForm<FoodFormValues>({
-    resolver: zodResolver(foodFormSchema),
+    resolver: zodResolver(foodFormSchema as any),
     defaultValues: {
       name: "",
       amount: 1,

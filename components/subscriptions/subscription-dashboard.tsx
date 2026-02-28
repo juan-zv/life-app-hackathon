@@ -52,7 +52,7 @@ const subscriptionFormSchema = z.object({
     message: "Price must be a positive number.",
   }),
   cycle: z.enum(["Monthly", "Yearly", "Weekly"], {
-    errorMap: () => ({ message: "Please select a recurrence cycle." }),
+    message: "Please select a recurrence cycle.",
   }),
   dueDate: z.string().min(1, {
     message: "Due date is required.",
@@ -95,8 +95,7 @@ export function SubscriptionDashboard() {
     (subscriptionSection?.content.items as SubscriptionItem[]) || []
 
   const form = useForm<z.infer<typeof subscriptionFormSchema>>({
-    // @ts-ignore
-    resolver: zodResolver(subscriptionFormSchema),
+    resolver: zodResolver(subscriptionFormSchema as any),
     defaultValues: {
       name: "",
       price: 0,
