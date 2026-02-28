@@ -12,6 +12,7 @@ import { cookies } from "next/headers"
 
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/layout/app-sidebar"
+import { ChatAssistant } from "@/components/layout/chat-assistant"
 
 export const metadata: Metadata = {
   title: "Life App Hackathon",
@@ -48,6 +49,9 @@ export default async function RootLayout({ children }: { children: React.ReactNo
                   </SignedIn> */}
                 </div>
                 {children}
+                <SignedIn>
+                  <ChatAssistant />
+                </SignedIn>
               </main>
             </SidebarProvider>
           </ThemeProvider>
