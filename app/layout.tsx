@@ -1,4 +1,11 @@
 import type { Metadata } from "next";
+import {
+  ClerkProvider,
+  SignInButton,
+  SignedIn,
+  SignedOut,
+  UserButton
+} from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/theme-provider";
 import "./globals.css";
 
@@ -13,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <>
+    <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <head />
         <body>
@@ -27,6 +34,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <AppSidebar />
               <main>
                 <SidebarTrigger />
+                <div className="flex justify-end p-4">
+                  <SignedOut>
+                    <SignInButton />
+                  </SignedOut>
+                  <SignedIn>
+                    <UserButton />
+                  </SignedIn>
+                </div>
                 {children}
               </main>
             </SidebarProvider>
@@ -34,6 +49,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </ThemeProvider>
         </body>
       </html>
-    </>
+    </ClerkProvider>
   )
 }
