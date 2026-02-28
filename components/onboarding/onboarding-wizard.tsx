@@ -93,8 +93,8 @@ export function OnboardingWizard() {
     link.click()
     document.body.removeChild(link)
 
-    // Redirect to dashboard
-    router.push("/")
+    // Redirect to sign-up
+    router.push("/sign-up")
   }
 
   const CurrentStepComponent = steps[currentStep].component
