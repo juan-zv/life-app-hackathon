@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from "@clerk/nextjs"
 import {
   ListChecks,
+  RefreshCw,
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -21,6 +22,7 @@ export function AcademicsDashboard() {
   const { userId, isLoaded } = useAuth()
   const [data, setData] = useState<DashboardSection[]>(mockDashboardData)
   const [isLoading, setIsLoading] = useState(true)
+  const [isSyncing, setIsSyncing] = useState(false)
 
   useEffect(() => {
     if (!isLoaded || !userId) return
@@ -43,6 +45,53 @@ export function AcademicsDashboard() {
     fetchData()
   }, [isLoaded, userId])
 
+  const handleSyncCanvas = async () => {
+    if (!userId) return
+
+    setIsSyncing(true)
+    try {
+      const response = await fetch(`https://backend1.study-with-me.org/scrapers/canvas?user_id=${userId}`, {
+        method: "POST",
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        const newItems = result.items || []
+
+        setData((prevData) => {
+          const academicSectionIndex = prevData.findIndex((s) => s.name === "Academics")
+          
+          if (academicSectionIndex >= 0) {
+            const newData = [...prevData]
+            newData[academicSectionIndex] = {
+              ...newData[academicSectionIndex],
+              content: {
+                items: newItems
+              }
+            }
+            return newData
+          } else {
+            return [
+              ...prevData,
+              {
+                id: Date.now().toString(),
+                user_id: userId,
+                name: "Academics",
+                content: {
+                  items: newItems
+                }
+              }
+            ]
+          }
+        })
+      }
+    } catch (error) {
+      console.error("Error syncing Canvas:", error)
+    } finally {
+      setIsSyncing(false)
+    }
+  }
+
   const academicsSection = data.filter((section) => section.name === "Academics")
   // Flatten all items from all "Academics" sections found, with safe navigation
   const assignments = academicsSection.flatMap(section => section.content?.items || []) as AssignmentItem[]
@@ -51,6 +100,12 @@ export function AcademicsDashboard() {
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
       <div className="flex items-center justify-between space-y-2">
         <h2 className="text-3xl font-bold tracking-tight">Academics</h2>
+        <div className="flex items-center space-x-2">
+          <Button onClick={handleSyncCanvas} disabled={isSyncing}>
+            <RefreshCw className={`mr-2 h-4 w-4 ${isSyncing ? "animate-spin" : ""}`} />
+            Sync Canvas
+          </Button>
+        </div>
       </div>
       
       <div className="rounded-xl border bg-card text-card-foreground shadow">
