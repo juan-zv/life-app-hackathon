@@ -73,8 +73,7 @@ type FoodFormValues = z.infer<typeof foodFormSchema>
 // but validates them as numbers according to our rules
 const formSchema = foodFormSchema as unknown as z.ZodType<
   FoodFormValues,
-  any,
-  unknown
+  any
 >
 
 export function FoodDashboard() {
