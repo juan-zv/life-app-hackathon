@@ -1,7 +1,9 @@
+import { AcademicsDashboard } from "@/components/academics/academics-dashboard"
+
 export default function Page() {
     return (
-        <div className="flex justify-center items-center min-h-[50vh]">
-            <h1 className="text-3xl font-bold">Academics</h1>
+        <div className="flex-1 space-y-4 p-4 pt-6 md:p-8">
+            <AcademicsDashboard />
         </div>
     )
 }
