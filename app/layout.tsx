@@ -31,13 +31,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             disableTransitionOnChange
           >
             <SidebarProvider>
-              <AppSidebar />
-              <main>
-                <SidebarTrigger />
+              <SignedIn>
+                <AppSidebar />
+              </SignedIn>
+              <main className="w-full">
+                <SignedIn>
+                  <SidebarTrigger />
+                </SignedIn>
                 <div className="flex justify-end p-4">
-                  <SignedOut>
-                    <SignInButton />
-                  </SignedOut>
                   <SignedIn>
                     <UserButton />
                   </SignedIn>
