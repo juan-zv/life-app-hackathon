@@ -6,6 +6,7 @@ import {
   Plus,
   Search,
 } from "lucide-react"
+import { API_BASE_URL } from "@/lib/api-config"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -32,7 +33,7 @@ export function SubscriptionDashboard() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://backend1.study-with-me.org/categories/${userId}`)
+        const response = await fetch(`${API_BASE_URL}/categories/${userId}`)
         if (response.ok) {
           const result = await response.json()
           setData(result)
@@ -76,7 +77,7 @@ export function SubscriptionDashboard() {
           },
         }
 
-        const response = await fetch("https://backend1.study-with-me.org/categories", {
+        const response = await fetch(`${API_BASE_URL}/categories`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -107,7 +108,7 @@ export function SubscriptionDashboard() {
         }
 
         const response = await fetch(
-            `https://backend1.study-with-me.org/categories/${updatedSection.id}`,
+            `${API_BASE_URL}/categories/${updatedSection.id}`,
             {
                 method: "PUT",
                 headers: {

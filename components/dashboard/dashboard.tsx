@@ -35,7 +35,17 @@ export function Dashboard() {
 
     fetch("/api/categories")
       .then(res => res.json())
-      .then(data => setApiData(data))
+      .then(data => {
+        // Handle both array and object responses (e.g., { categories: [...] })
+        if (Array.isArray(data)) {
+          setApiData(data)
+        } else if (data?.categories && Array.isArray(data.categories)) {
+          setApiData(data.categories)
+        } else {
+          console.error("Unexpected API response format:", data)
+          setApiData([])
+        }
+      })
       .catch(err => console.error(err))
   }, [isLoaded, userId])
 
@@ -47,8 +57,9 @@ export function Dashboard() {
     }
   }
 
-  const subscriptions = apiData?.find(c => c.name === "Subscriptions")?.content?.items || []
-  const academics = apiData?.find(c => c.name === "Academics")?.content || {}
+  const categories = Array.isArray(apiData) ? apiData : []
+  const subscriptions = categories.find(c => c.name === "Subscriptions")?.content?.items || []
+  const academics = categories.find(c => c.name === "Academics")?.content || {}
   const monthlySpend = subscriptions.reduce((acc: number, sub: any) => {
     if (sub.cycle === "Monthly") return acc + sub.price
     if (sub.cycle === "Yearly") return acc + (sub.price / 12)

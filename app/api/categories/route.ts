@@ -1,5 +1,6 @@
 import { auth } from "@clerk/nextjs/server"
 import { NextResponse } from "next/server"
+import { API_BASE_URL } from "@/lib/api-config"
 
 export async function GET() {
   const { userId } = await auth()
@@ -10,7 +11,7 @@ export async function GET() {
 
   try {
     const response = await fetch(
-      `https://backend1.study-with-me.org/categories/${userId}`
+      `${API_BASE_URL}/categories/${userId}`
     )
 
     if (!response.ok) {
