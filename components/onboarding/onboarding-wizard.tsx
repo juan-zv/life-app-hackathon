@@ -4,27 +4,31 @@ import * as React from "react"
 import { useForm, FormProvider } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
+import { ArrowLeft, ArrowRight, Sparkles, SkipForward } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Progress } from "@/components/ui/progress"
+import { Badge } from "@/components/ui/badge"
+import { Separator } from "@/components/ui/separator"
 import { StepFoodHealth } from "./step-food-health"
 import { StepAcademics } from "./step-academics"
 import { StepSubscriptions } from "./step-subscriptions"
 import { onboardingSchema, type OnboardingData } from "./schema"
 
 const steps = [
-  { id: "food-health", component: StepFoodHealth },
-  { id: "academics", component: StepAcademics },
-  { id: "subscriptions", component: StepSubscriptions },
+  { id: "food-health", label: "Food & Health", component: StepFoodHealth },
+  { id: "academics", label: "Academics", component: StepAcademics },
+  { id: "subscriptions", label: "Subscriptions", component: StepSubscriptions },
 ]
 
 export function OnboardingWizard() {
   const [currentStep, setCurrentStep] = React.useState(0)
+  const [showPreview, setShowPreview] = React.useState(false)
   const router = useRouter()
 
   const methods = useForm<OnboardingData>({
-    resolver: zodResolver(onboardingSchema as any), 
+    resolver: zodResolver(onboardingSchema as any),
     mode: "onChange",
     defaultValues: {
       foodHealth: {
@@ -33,7 +37,7 @@ export function OnboardingWizard() {
     },
   })
 
-  const { trigger, getValues, handleSubmit } = methods
+  const { trigger, getValues, handleSubmit, watch } = methods
 
   const handleNext = async () => {
     let isValid = false
@@ -61,7 +65,7 @@ export function OnboardingWizard() {
       if (currentStep < steps.length - 1) {
         setCurrentStep((prev) => prev + 1)
       } else {
-        await onSubmit(getValues())
+        setShowPreview(true)
       }
     }
   }
@@ -70,70 +74,163 @@ export function OnboardingWizard() {
     if (currentStep < steps.length - 1) {
       setCurrentStep((prev) => prev + 1)
     } else {
-      onSubmit(getValues())
+      setShowPreview(true)
     }
   }
 
   const handleBack = () => {
+    if (showPreview) {
+      setShowPreview(false)
+      return
+    }
     if (currentStep > 0) {
       setCurrentStep((prev) => prev - 1)
     }
   }
 
-  const onSubmit = (data: OnboardingData) => {
-    // Generate JSON file for download
-    const blob = new Blob([JSON.stringify(data, null, 2)], {
-      type: "application/json",
-    })
-    const url = URL.createObjectURL(blob)
-    const link = document.createElement("a")
-    link.href = url
-    link.download = "user.json"
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
-
-    // Redirect to sign-up
+  const handleFinish = () => {
     router.push("/sign-up")
   }
 
   const CurrentStepComponent = steps[currentStep].component
+  const formData = watch()
+
+  // Build a clean preview of what's been filled
+  const previewData: Record<string, any> = {}
+  if (formData.foodHealth?.dietaryRestrictions || formData.foodHealth?.cookingSkill) {
+    previewData.foodHealth = {
+      ...(formData.foodHealth.dietaryRestrictions && { diet: formData.foodHealth.dietaryRestrictions }),
+      ...(formData.foodHealth.cookingSkill && { skill: formData.foodHealth.cookingSkill }),
+      ...(formData.foodHealth.householdSize && { household: formData.foodHealth.householdSize }),
+    }
+  }
+  if (formData.academics?.currentLevel || formData.academics?.major) {
+    previewData.academics = {
+      ...(formData.academics.currentLevel && { level: formData.academics.currentLevel }),
+      ...(formData.academics.major && { major: formData.academics.major }),
+      ...(formData.academics.learningStyle && { style: formData.academics.learningStyle }),
+    }
+  }
+  if (formData.subscriptions?.bankSync || formData.subscriptions?.forgetfulMetric) {
+    previewData.subscriptions = {
+      ...(formData.subscriptions.bankSync && { tracking: formData.subscriptions.bankSync }),
+      ...(formData.subscriptions.forgetfulMetric && { forgetfulness: formData.subscriptions.forgetfulMetric }),
+    }
+  }
 
   return (
     <div className="flex min-h-screen items-center justify-center p-4">
-      <Card className="w-full max-w-lg">
-        <CardHeader>
+      <Card className="w-full max-w-lg shadow-lg">
+        <CardHeader className="space-y-4 pb-4">
           <div className="flex items-center justify-between">
-            <span className="text-muted-foreground text-sm font-medium">
-              Step {currentStep + 1} of {steps.length}
-            </span>
-            <Button variant="ghost" size="sm" onClick={handleSkip}>
-              Skip
-            </Button>
+            <Badge variant="secondary" className="text-xs font-medium">
+              Step {showPreview ? steps.length : currentStep + 1} of {steps.length}
+            </Badge>
+            {!showPreview && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-muted-foreground hover:text-foreground gap-1.5"
+                onClick={handleSkip}
+              >
+                Skip <SkipForward className="h-3.5 w-3.5" />
+              </Button>
+            )}
           </div>
-          <Progress 
-            value={((currentStep + 1) / steps.length) * 100} 
-            className="mt-2"
+
+          {/* Step indicators */}
+          <div className="flex items-center gap-2">
+            {steps.map((step, i) => (
+              <React.Fragment key={step.id}>
+                <div
+                  className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold transition-colors ${
+                    i < currentStep || showPreview
+                      ? "bg-primary text-primary-foreground"
+                      : i === currentStep && !showPreview
+                        ? "bg-primary text-primary-foreground ring-2 ring-primary/30 ring-offset-2 ring-offset-background"
+                        : "bg-muted text-muted-foreground"
+                  }`}
+                >
+                  {i + 1}
+                </div>
+                {i < steps.length - 1 && (
+                  <div
+                    className={`h-0.5 flex-1 rounded-full transition-colors ${
+                      i < currentStep || showPreview ? "bg-primary" : "bg-muted"
+                    }`}
+                  />
+                )}
+              </React.Fragment>
+            ))}
+          </div>
+
+          <Progress
+            value={((showPreview ? steps.length : currentStep + 1) / steps.length) * 100}
+            className="h-1.5"
           />
         </CardHeader>
+
+        <Separator />
+
         <CardContent className="pt-6">
-          <FormProvider {...methods}>
-            <form className="space-y-8">
-              <CurrentStepComponent />
-            </form>
-          </FormProvider>
+          {showPreview ? (
+            <div className="space-y-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10">
+                  <Sparkles className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-bold tracking-tight">You&apos;re all set!</h2>
+                  <p className="text-muted-foreground text-sm mt-1">
+                    Here&apos;s what we&apos;ll use to personalize your dashboard.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-lg border bg-muted/50 p-4 font-mono text-xs overflow-auto max-h-60">
+                <pre className="text-foreground whitespace-pre-wrap">
+                  {JSON.stringify(
+                    Object.keys(previewData).length > 0 ? previewData : { message: "No preferences set — defaults will be used" },
+                    null,
+                    2
+                  )}
+                </pre>
+              </div>
+
+              <p className="text-muted-foreground text-xs text-center">
+                This data shapes your Food, Academics & Subscriptions experience. You can update it anytime from Settings.
+              </p>
+            </div>
+          ) : (
+            <FormProvider {...methods}>
+              <form className="space-y-6">
+                <CurrentStepComponent />
+              </form>
+            </FormProvider>
+          )}
         </CardContent>
-        <CardFooter className="flex justify-between">
+
+        <Separator />
+
+        <CardFooter className="flex justify-between pt-4">
           <Button
             variant="outline"
             onClick={handleBack}
-            disabled={currentStep === 0}
+            disabled={currentStep === 0 && !showPreview}
+            className="gap-1.5"
           >
-            Back
+            <ArrowLeft className="h-4 w-4" /> Back
           </Button>
-          <Button onClick={handleNext}>
-            {currentStep === steps.length - 1 ? "Finish" : "Next"}
-          </Button>
+          {showPreview ? (
+            <Button onClick={handleFinish} className="gap-1.5">
+              Create Account <ArrowRight className="h-4 w-4" />
+            </Button>
+          ) : (
+            <Button onClick={handleNext} className="gap-1.5">
+              {currentStep === steps.length - 1 ? "Review" : "Continue"}{" "}
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          )}
         </CardFooter>
       </Card>
     </div>

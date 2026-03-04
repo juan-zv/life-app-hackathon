@@ -33,7 +33,7 @@ export function Dashboard() {
   useEffect(() => {
     if (!isLoaded || !userId) return
 
-    fetch(`https://backend1.study-with-me.org/categories/${userId}`)
+    fetch("/api/categories")
       .then(res => res.json())
       .then(data => setApiData(data))
       .catch(err => console.error(err))

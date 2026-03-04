@@ -1,8 +1,10 @@
 "use client"
 
 import { useFormContext } from "react-hook-form"
+import { CreditCard } from "lucide-react"
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -25,7 +27,8 @@ export function StepSubscriptions() {
     <div className="space-y-6">
       <Heading
         title="Subscriptions"
-        description="Help us help you manage recurring payments."
+        description="Never miss a renewal again — we'll track payments and remind you before charges hit."
+        icon={CreditCard}
       />
       <div className="space-y-4">
         <FormField
@@ -33,20 +36,21 @@ export function StepSubscriptions() {
           name="subscriptions.bankSync"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Subscription Tracking Method</FormLabel>
+              <FormLabel>How should we find your subscriptions?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select method" />
+                    <SelectValue placeholder="Choose tracking method" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
                   <SelectItem value="AutoScan">
-                    Auto-scan receipts (via Email)
+                    📧 Auto-scan receipts from email
                   </SelectItem>
-                  <SelectItem value="Manual">Enter manually</SelectItem>
+                  <SelectItem value="Manual">✍️ I'll enter them manually</SelectItem>
                 </SelectContent>
               </Select>
+              <FormDescription>Auto-scan detects services like Netflix, Spotify, and more from your inbox.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -56,20 +60,21 @@ export function StepSubscriptions() {
           name="subscriptions.forgetfulMetric"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>The &apos;Forgetful&apos; Metric</FormLabel>
+              <FormLabel>How often do subscriptions slip your mind?</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="How often do you forget?" />
+                    <SelectValue placeholder="Be honest — no judgment" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Never">Never</SelectItem>
-                  <SelectItem value="Sometimes">Sometimes</SelectItem>
-                  <SelectItem value="Often">Often</SelectItem>
-                  <SelectItem value="Always">Always</SelectItem>
+                  <SelectItem value="Never">🧘 Never — I'm on top of it</SelectItem>
+                  <SelectItem value="Sometimes">🤔 Sometimes — the odd one slips</SelectItem>
+                  <SelectItem value="Often">😅 Often — surprise charges happen</SelectItem>
+                  <SelectItem value="Always">🫠 Always — please help me</SelectItem>
                 </SelectContent>
               </Select>
+              <FormDescription>The more forgetful you are, the more aggressively we'll remind you.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

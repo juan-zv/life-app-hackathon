@@ -1,8 +1,10 @@
 "use client"
 
 import { useFormContext } from "react-hook-form"
+import { UtensilsCrossed } from "lucide-react"
 import {
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -26,9 +28,10 @@ export function StepFoodHealth() {
     <div className="space-y-6">
       <Heading
         title="Food & Health"
-        description="Tell us about your dietary preferences and cooking habits."
+        description="We'll personalize meal plans, grocery lists, and nutrition tips based on your answers."
+        icon={UtensilsCrossed}
       />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="space-y-4">
         <FormField
           control={control}
           name="foodHealth.dietaryRestrictions"
@@ -38,16 +41,17 @@ export function StepFoodHealth() {
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select dietary preference" />
+                    <SelectValue placeholder="Choose your diet style" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Vegan">Vegan</SelectItem>
-                  <SelectItem value="Keto">Keto</SelectItem>
-                  <SelectItem value="GF">Gluten Free</SelectItem>
-                  <SelectItem value="NoRestrictions">No Restrictions</SelectItem>
+                  <SelectItem value="Vegan">🌱 Vegan</SelectItem>
+                  <SelectItem value="Keto">🥑 Keto</SelectItem>
+                  <SelectItem value="GF">🌾 Gluten Free</SelectItem>
+                  <SelectItem value="NoRestrictions">🍽️ No Restrictions</SelectItem>
                 </SelectContent>
               </Select>
+              <FormDescription>Filters recipes and grocery suggestions to match your diet.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -57,19 +61,20 @@ export function StepFoodHealth() {
           name="foodHealth.cookingSkill"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cooking Skill</FormLabel>
+              <FormLabel>Cooking Comfort Level</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select skill level" />
+                    <SelectValue placeholder="How comfortable are you in the kitchen?" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="None">None</SelectItem>
-                  <SelectItem value="Basic">Basic</SelectItem>
-                  <SelectItem value="HomeChef">Home Chef</SelectItem>
+                  <SelectItem value="None">Microwave only</SelectItem>
+                  <SelectItem value="Basic">I can follow a recipe</SelectItem>
+                  <SelectItem value="HomeChef">Home Chef — I improvise</SelectItem>
                 </SelectContent>
               </Select>
+              <FormDescription>We'll match recipe complexity to your skill level.</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -78,16 +83,19 @@ export function StepFoodHealth() {
           control={control}
           name="foodHealth.householdSize"
           render={({ field }) => (
-            <FormItem className="col-span-1 md:col-span-2">
-              <FormLabel>Household Size (People feeding)</FormLabel>
+            <FormItem>
+              <FormLabel>How many people are you cooking for?</FormLabel>
               <FormControl>
                 <Input
                   type="number"
+                  min={1}
+                  max={20}
                   placeholder="e.g. 2"
                   {...field}
                   onChange={(e) => field.onChange(Number(e.target.value))}
                 />
               </FormControl>
+              <FormDescription>Adjusts portion sizes and grocery quantities automatically.</FormDescription>
               <FormMessage />
             </FormItem>
           )}

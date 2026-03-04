@@ -24,7 +24,7 @@ const items = [
   },
   {
     title: "Walmart Cart",
-    url: "/food-and-health/walmart-cart",
+    url: "/walmart-cart",
     icon: ShoppingCart,
   },
   {

@@ -34,7 +34,7 @@ export default function WalmartCartPage() {
 
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://backend1.study-with-me.org/categories/${userId}`)
+        const response = await fetch("/api/categories")
         if (response.ok) {
           const result = await response.json()
           const foodSection = result.find((section: any) => section.name === "Food")
